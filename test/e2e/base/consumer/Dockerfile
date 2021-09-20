@@ -13,18 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG AGENT_TAG=3e97740036242cf4ee8808b737727a7093b3d31f-java8
-# 9a05ad4b423a380c8da711e2a2b856ee93bc9422-es6
-ARG SW_VERSION=8.6.0
+ARG SW_VERSION=8.8.0-SNAPSHOT
 
 FROM maven:3.8.1-jdk-8 as builder
 
 ADD . /consumer_code
 
 WORKDIR /consumer_code
-RUN mvn clean package -B -Dsw.version=8.6.0
+RUN mvn clean package -B -Dsw.version=${SW_VERSION}
 
-FROM ghcr.io/apache/skywalking/agent:${AGENT_TAG}
+FROM skywalking/skywalking-java:latest
 
 VOLUME /services
 

@@ -29,6 +29,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+      - run: make docker
       - uses: apache/skywalking-infra-e2e@7d55a252c35bf69f65dc64675a80699dc3c21bde
         with:
           e2e-file: test/e2e/case/log/e2e.yaml

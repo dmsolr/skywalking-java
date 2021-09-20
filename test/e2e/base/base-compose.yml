@@ -43,6 +43,7 @@ services:
       - e2e
     environment:
       SW_AGENT_NAME: e2e-service-provider
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
       SW_INSTANCE_NAME: provider1
       SW_LOGGING_OUTPUT: CONSOLE
     healthcheck:
@@ -61,6 +62,7 @@ services:
       - e2e
     environment:
       PROVIDER_URL: http://provider:9090
+      SW_AGENT_COLLECTOR_BACKEND_SERVICES: oap:11800
       SW_AGENT_NAME: e2e-service-consumer
       SW_INSTANCE_NAME: consumer1
       SW_LOGGING_OUTPUT: CONSOLE
