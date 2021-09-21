@@ -48,7 +48,7 @@ public class LogReportServiceClient implements BootService, GRPCChannelListener,
     private volatile DataCarrier<LogData> carrier;
     private volatile GRPCChannelStatus status;
 
-    private LogReportServiceGrpc.LogReportServiceStub logReportServiceStub;
+    private volatile LogReportServiceGrpc.LogReportServiceStub logReportServiceStub;
 
     @Override
     public void prepare() throws Throwable {
@@ -92,7 +92,9 @@ public class LogReportServiceClient implements BootService, GRPCChannelListener,
         if (GRPCChannelStatus.CONNECTED.equals(status)) {
             GRPCStreamServiceStatus status = new GRPCStreamServiceStatus(false);
 
-            StreamObserver<LogData> logDataStreamObserver = logReportServiceStub.collect(
+            StreamObserver<LogData> logDataStreamObserver = logReportServiceStub
+                .withDeadlineAfter(Collector.GRPC_UPSTREAM_TIMEOUT, TimeUnit.SECONDS)
+                .collect(
                 new StreamObserver<Commands>() {
                     @Override
                     public void onNext(final Commands commands) {
@@ -139,7 +141,6 @@ public class LogReportServiceClient implements BootService, GRPCChannelListener,
         if (GRPCChannelStatus.CONNECTED.equals(status)) {
             Channel channel = ServiceManager.INSTANCE.findService(GRPCChannelManager.class).getChannel();
             logReportServiceStub = LogReportServiceGrpc.newStub(channel)
-                                                       .withDeadlineAfter(Collector.GRPC_UPSTREAM_TIMEOUT, TimeUnit.SECONDS)
                                                        .withMaxOutboundMessageSize(Log.MAX_MESSAGE_SIZE);
         }
         this.status = status;
