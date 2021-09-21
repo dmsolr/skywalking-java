@@ -13,12 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG JAR_FILE
-
 FROM skywalking/skywalking-java:latest-java8
 
-RUN mkdir /services
-COPY ./target/${JAR_FILE} /service
+ARG JAR_FILE
+ADD target/${JAR_FILE} /services/${JAR_FILE}
 
 RUN echo 'agent.instance_name=${SW_INSTANCE_NAME:provider}' >> /skywalking/agent/config/agent.config
 RUN echo 'logging.output=${SW_LOGGING_OUTPUT:CONSOLE}' >> /skywalking/agent/config/agent.config

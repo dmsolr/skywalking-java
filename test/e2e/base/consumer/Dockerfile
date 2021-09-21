@@ -13,12 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG JAR_FILE
-
 FROM skywalking/skywalking-java:latest-java8
 
-RUN mkdir /services
-COPY ./target/${JAR_FILE} /services
+ARG JAR_FILE
+ADD target/${JAR_FILE} /services/${JAR_FILE}
 
 ENV JAVA_OPTS=""
 
