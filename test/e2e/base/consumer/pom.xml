@@ -22,9 +22,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.5.RELEASE</version>
+        <groupId>org.apache.skywalking</groupId>
+        <artifactId>apache-skywalking-e2e</artifactId>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -33,13 +33,7 @@
     <artifactId>e2e-service-consumer</artifactId>
 
     <properties>
-        <sw.version>
-            <!--
-            Please manually set the SkyWalking version here to build in the IDE
-            (if you build from command line, just use ./mvn -Dsw.version=x.y.z),
-            but make sure not to check it into the code base / git
-            -->
-        </sw.version>
+        <dockerfile.skip>false</dockerfile.skip>
 
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>

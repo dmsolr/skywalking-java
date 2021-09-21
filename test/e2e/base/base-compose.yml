@@ -18,7 +18,7 @@ version: '2.1'
 services:
 
   oap:
-    image: skywalking/oap:latest # ghcr.io/apache/skywalking/oap:902b6c540bd0e027c28f6fb8834d88a66a62143a-es6
+    image: ghcr.io/apache/skywalking/oap:1730f2c84bbd4da999ec2c74d1c26db31d5a0d24
     expose:
       - 11800
       - 12800
@@ -34,9 +34,7 @@ services:
       retries: 120
 
   provider:
-    build:
-      context: provider
-      dockerfile: Dockerfile
+    image: skywalking/e2e-service-provider:1.0.0
     expose:
       - 9090
     networks:
@@ -53,9 +51,7 @@ services:
       retries: 120
 
   consumer:
-    build:
-      context: consumer
-      dockerfile: Dockerfile
+    image: skywalking/e2e-service-consumer:1.0.0
     expose:
       - 9090
     networks:

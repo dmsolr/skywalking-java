@@ -13,20 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG SW_VERSION=8.8.0-SNAPSHOT
+ARG JAR_FILE
 
-FROM maven:3.8.1-jdk-8 as builder
+FROM skywalking/skywalking-java:latest-java8
 
-ADD . /consumer_code
-
-WORKDIR /consumer_code
-RUN mvn clean package -B -Dsw.version=${SW_VERSION}
-
-FROM skywalking/skywalking-java:latest
-
-VOLUME /services
-
-COPY --from=builder /consumer_code/target/e2e-service-consumer.jar /services/
+RUN mkdir /services
+COPY ./target/${JAR_FILE} /services
 
 ENV JAVA_OPTS=""
 

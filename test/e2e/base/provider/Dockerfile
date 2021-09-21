@@ -13,20 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG SW_VERSION=8.8.0-SNAPSHOT
+ARG JAR_FILE
 
-FROM maven:3.8.1-jdk-8 as builder
+FROM skywalking/skywalking-java:latest-java8
 
-ADD . /provider_code
-
-WORKDIR /provider_code
-RUN mvn clean package -B -Dsw.version=${SW_VERSION}
-
-FROM skywalking/skywalking-java:latest
-
-VOLUME /services
-
-COPY --from=builder /provider_code/target/e2e-service-provider.jar /services/
+RUN mkdir /services
+COPY ./target/${JAR_FILE} /service
 
 RUN echo 'agent.instance_name=${SW_INSTANCE_NAME:provider}' >> /skywalking/agent/config/agent.config
 RUN echo 'logging.output=${SW_LOGGING_OUTPUT:CONSOLE}' >> /skywalking/agent/config/agent.config
